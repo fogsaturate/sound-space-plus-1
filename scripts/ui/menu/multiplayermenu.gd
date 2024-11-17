@@ -4,6 +4,8 @@ extends ColorRect
 # Declare member variables here. Examples:
 # var a = 2
 
+var connected : bool = false
+
 onready var username = $MultiplayerWindow/UsernameText
 onready var ip = $MultiplayerWindow/IPText
 onready var port = $MultiplayerWindow/PortText
@@ -24,13 +26,14 @@ var clientmessage : String
 func _ready():
 	pass
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
 
 func _on_Host_pressed():
 	var peer = NetworkedMultiplayerENet.new()
-	peer.create_server(1027,32)
+	peer.create_server(int(port.text),32)
 	get_tree().network_peer = peer
 	joined()
 
@@ -47,7 +50,7 @@ func create_message() -> String:
 
 func _on_Join_pressed():
 	var peer = NetworkedMultiplayerENet.new()
-	peer.create_client("127.0.0.1", 1027)
+	peer.create_client(ip.text, int(port.text))
 	get_tree().network_peer = peer
 	joined()
 
@@ -62,4 +65,5 @@ func joined():
 	multiplayerwindow.hide()
 	chatwindow.show()
 	clientusername = username.text
+	connected = true
 
