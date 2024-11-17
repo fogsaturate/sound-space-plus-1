@@ -1,4 +1,4 @@
-[gd_scene load_steps=206 format=2]
+[gd_scene load_steps=208 format=2]
 
 [ext_resource path="res://uitheme.tres" type="Theme" id=1]
 [ext_resource path="res://assets/font/Lato/Lato-Regular.ttf" type="DynamicFontData" id=2]
@@ -46,6 +46,7 @@
 [ext_resource path="res://scripts/ui/menu/buttons/SuddenDeath.gd" type="Script" id=44]
 [ext_resource path="res://scripts/ui/menu/buttons/Ghost.gd" type="Script" id=45]
 [ext_resource path="res://scripts/ui/menu/rainbow.gd" type="Script" id=46]
+[ext_resource path="res://prefabs/menu/multiplayer.tscn" type="PackedScene" id=47]
 [ext_resource path="res://scripts/ui/menu/buttons/PatreonCredits.gd" type="Script" id=48]
 [ext_resource path="res://prefabs/menu/settings_page.tscn" type="PackedScene" id=49]
 [ext_resource path="res://assets/font/UbuntuMono/Regular.ttf" type="DynamicFontData" id=50]
@@ -104,6 +105,7 @@
 [ext_resource path="res://scenes/menu/contentmgr.tscn" type="PackedScene" id=103]
 [ext_resource path="res://scenes/menu/language.tscn" type="PackedScene" id=104]
 [ext_resource path="res://scripts/ui/menu/buttons/v3MapList.gd" type="Script" id=105]
+[ext_resource path="res://assets/images/ui/multiplayer.png" type="Texture" id=106]
 
 [sub_resource type="Gradient" id=163]
 offsets = PoolRealArray( 0, 0.5, 1 )
@@ -699,6 +701,7 @@ rect_min_size = Vector2( 1220, 0 )
 rect_pivot_offset = Vector2( -398, 64 )
 
 [node name="Maps" type="HBoxContainer" parent="Main"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = 22.0
@@ -4353,6 +4356,16 @@ margin_right = 1220.0
 margin_bottom = 742.0
 custom_constants/separation = 10
 
+[node name="Multiplayer" type="ReferenceRect" parent="Main"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+border_color = Color( 1, 0, 0, 0 )
+
+[node name="Multiplayer" parent="Main/Multiplayer" instance=ExtResource( 47 )]
+
 [node name="Settings" type="ReferenceRect" parent="Main"]
 visible = false
 anchor_right = 1.0
@@ -4518,6 +4531,37 @@ custom_fonts/font = SubResource( 6 )
 text = "Play Song"
 valign = 1
 
+[node name="Multiplayer" type="Button" parent="Sidebar/L"]
+margin_top = 58.0
+margin_right = 58.0
+margin_bottom = 116.0
+rect_min_size = Vector2( 0, 58 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+toggle_mode = true
+action_mode = 0
+group = SubResource( 5 )
+
+[node name="Tex" type="TextureRect" parent="Sidebar/L/Multiplayer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 48.0
+margin_bottom = 48.0
+texture = ExtResource( 106 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="Sidebar/L/Multiplayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 64.0
+custom_fonts/font = SubResource( 6 )
+text = "Multiplayer"
+valign = 1
+
 [node name="MapSelect" type="Button" parent="Sidebar/L"]
 visible = false
 margin_top = 58.0
@@ -4552,9 +4596,9 @@ text = "Song Select"
 valign = 1
 
 [node name="Settings" type="Button" parent="Sidebar/L"]
-margin_top = 58.0
+margin_top = 116.0
 margin_right = 58.0
-margin_bottom = 116.0
+margin_bottom = 174.0
 rect_min_size = Vector2( 0, 58 )
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 2 )
@@ -4583,9 +4627,9 @@ text = "Settings"
 valign = 1
 
 [node name="Credits" type="Button" parent="Sidebar/L"]
-margin_top = 116.0
+margin_top = 174.0
 margin_right = 58.0
-margin_bottom = 174.0
+margin_bottom = 232.0
 rect_min_size = Vector2( 0, 58 )
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 2 )
@@ -4614,9 +4658,9 @@ text = "Credits"
 valign = 1
 
 [node name="ContentMgr" type="Button" parent="Sidebar/L"]
-margin_top = 174.0
+margin_top = 232.0
 margin_right = 58.0
-margin_bottom = 232.0
+margin_bottom = 290.0
 rect_min_size = Vector2( 0, 58 )
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 2 )
@@ -4645,9 +4689,9 @@ text = "Content Manager"
 valign = 1
 
 [node name="Language" type="Button" parent="Sidebar/L"]
-margin_top = 232.0
+margin_top = 290.0
 margin_right = 58.0
-margin_bottom = 290.0
+margin_bottom = 348.0
 rect_min_size = Vector2( 0, 58 )
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 2 )
@@ -4740,9 +4784,9 @@ text = "Switch to Old Menu"
 valign = 1
 
 [node name="Quit" type="Button" parent="Sidebar/L"]
-margin_top = 290.0
+margin_top = 348.0
 margin_right = 58.0
-margin_bottom = 348.0
+margin_bottom = 406.0
 rect_min_size = Vector2( 0, 58 )
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 2 )
