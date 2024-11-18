@@ -3,7 +3,6 @@ extends ColorRect
 
 # Declare member variables here. Examples:
 # var a = 2
-
 var connected : bool = false
 
 onready var username = $MultiplayerWindow/UsernameText
@@ -24,7 +23,14 @@ var clientmessage : String
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# if connected == true:
+	# 	multiplayerwindow.hide()
+	# 	chatwindow.show()
+	# else:
+	# 	multiplayerwindow.show()
+	# 	chatwindow.hide()
 	pass
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -36,7 +42,6 @@ func _on_Host_pressed():
 	peer.create_server(int(port.text),32)
 	get_tree().network_peer = peer
 	joined()
-
 
 func _on_Send_pressed():
 	rpc_unreliable("sendmsg_rpc", create_message())
