@@ -1,6 +1,7 @@
 extends Button
 
 signal lock_type
+signal song_started
 
 var has_been_pressed:bool = false
 var detected_controllers = Input.get_connected_joypads().size()

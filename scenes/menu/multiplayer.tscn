@@ -98,9 +98,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -220.0
+margin_left = -315.0
 margin_top = -168.0
-margin_right = 220.0
+margin_right = 315.0
 margin_bottom = 152.0
 custom_styles/panel = SubResource( 70 )
 
@@ -133,6 +133,20 @@ margin_right = 412.0
 margin_bottom = 304.0
 text = "Send"
 
+[node name="UserList" type="ItemList" parent="ChatWindow"]
+margin_left = 430.0
+margin_top = 40.0
+margin_right = 607.0
+margin_bottom = 304.0
+
+[node name="StartButton" type="Button" parent="ChatWindow"]
+margin_left = 104.0
+margin_top = 349.0
+margin_right = 561.0
+margin_bottom = 379.0
+text = "START!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
 [connection signal="pressed" from="MultiplayerWindow/Host" to="." method="_on_Host_pressed"]
 [connection signal="pressed" from="MultiplayerWindow/Join" to="." method="_on_Join_pressed"]
 [connection signal="pressed" from="ChatWindow/Send" to="." method="_on_Send_pressed"]
+[connection signal="pressed" from="ChatWindow/StartButton" to="." method="_on_StartButton_pressed"]

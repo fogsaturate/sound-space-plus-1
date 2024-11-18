@@ -1,10 +1,5 @@
 extends ColorRect
 
-
-# Declare member variables here. Examples:
-# var a = 2
-var connected : bool = false
-
 onready var username = $MultiplayerWindow/UsernameText
 onready var ip = $MultiplayerWindow/IPText
 onready var port = $MultiplayerWindow/PortText
@@ -18,46 +13,62 @@ onready var chatwindow = $ChatWindow
 onready var messagebox = $ChatWindow/MessageBox
 onready var sendmessagetext = $ChatWindow/SendMessageText
 
-var clientusername : String
-var clientmessage : String
+onready var userlist = $ChatWindow/UserList
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	# if connected == true:
-	# 	multiplayerwindow.hide()
-	# 	chatwindow.show()
-	# else:
-	# 	multiplayerwindow.show()
-	# 	chatwindow.hide()
+	Multiplayer.connect("update_player_list",self,"update_player_list")
+	
+	# if we're server just update list
+	if(Multiplayer.connected == true): 
+		joined()
 	pass
 
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
 func _on_Host_pressed():
-	var peer = NetworkedMultiplayerENet.new()
-	peer.create_server(int(port.text),32)
-	get_tree().network_peer = peer
+	Multiplayer.host()
+	Multiplayer.clientusername = username.text
+	Multiplayer.user_list[str(get_tree().get_network_unique_id())] = Multiplayer.clientusername
+	print(Multiplayer.user_list)
+	joined()
+
+func _on_Join_pressed():
+	Multiplayer.join()
+	Multiplayer.clientusername = username.text
 	joined()
 
 func _on_Send_pressed():
-	rpc_unreliable("sendmsg_rpc", create_message())
+	rpc("sendmsg_rpc", create_message())
 	messagebox.text += create_message()
 	# sendmsg_rpc(create_message())
 	sendmessagetext.text = ""
 	# sendmsg_test(sendmessagetext.text)
 
-func create_message() -> String:
-	return clientusername + ": " + sendmessagetext.text + "\n"
+func _on_StartButton_pressed():
+	rpc("startMap_rpc")
+	get_viewport().get_node("Menu").black_fade_target = true
+	yield(get_tree().create_timer(0.35),"timeout")
+	get_tree().change_scene("res://scenes/loaders/songload.tscn")
 
-func _on_Join_pressed():
-	var peer = NetworkedMultiplayerENet.new()
-	peer.create_client(ip.text, int(port.text))
-	get_tree().network_peer = peer
-	joined()
+puppet func startMap_rpc():
+	print("trying to start map now!")
+	if !Rhythia.selected_song: return
+	print("selected song has been returned!")
+	get_viewport().get_node("Menu").black_fade_target = true
+	print("menu has faded out!")
+	yield(get_tree().create_timer(0.35),"timeout")
+	print("timer has been created!")
+	get_tree().change_scene("res://scenes/loaders/songload.tscn")
+	print("scene has been swapped!")
+
+func create_message() -> String:
+	return Multiplayer.clientusername + ": " + sendmessagetext.text + "\n"
+
+func update_player_list():
+	userlist.clear()
+	for i in Multiplayer.user_list:
+		# var data = Multiplayer.user_list[i]
+		userlist.add_item(Multiplayer.user_list[i])
+	
 
 remote func sendmsg_rpc(message):
 	messagebox.text += str(message)
@@ -69,6 +80,11 @@ remote func sendmsg_rpc(message):
 func joined():
 	multiplayerwindow.hide()
 	chatwindow.show()
-	clientusername = username.text
-	connected = true
+	print(Multiplayer.clientusername)
+	update_player_list()
+	Multiplayer.connected = true
+	Multiplayer.mapid = Rhythia.selected_song.song
+	print(Multiplayer.mapid)
+
+
 
